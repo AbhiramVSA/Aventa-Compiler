@@ -1,0 +1,14 @@
+; Countdown that emits ticks until the stack head reaches zero
+SIP
+GLINT.ZERO already_zero
+
+loop:
+FLASH "tick"
+TWIST 1
+GLINT.POS loop
+FLASH "liftoff"
+QUIET
+
+already_zero:
+FLASH "already at zero"
+QUIET

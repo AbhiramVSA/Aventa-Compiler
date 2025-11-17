@@ -1,0 +1,25 @@
+// Classify an integer and test divisibility by three
+SIP
+GLINT.ZERO zero_case
+GLINT.POS positive_cycle
+FLASH "negative value"
+QUIET
+
+positive_cycle:
+EMBER 3
+TWIST 3
+GLINT.ZERO divisible
+GLINT.POS positive_cycle
+FLASH "positive but not divisible by three"
+QUIET
+
+divisible:
+FLASH "positive and divisible by three"
+QUIET
+
+zero_case:
+FLASH "zero"
+QUIET
+
+
+
