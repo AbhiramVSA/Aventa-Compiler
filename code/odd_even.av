@@ -1,0 +1,14 @@
+// Determine whether the provided integer is odd or even
+SIP
+GLINT.ZERO even
+
+loop:
+TWIST 2
+GLINT.ZERO even
+GLINT.POS loop
+FLASH "odd"
+QUIET
+
+even:
+FLASH "even"
+QUIET
