@@ -1,42 +1,64 @@
-# Deadlock Prevention: Banker's Algorithm
+<p align="center">
+  <img src="assets/bankers-algorithm-logo.png" alt="Teal and blue matrix with process nodes and a green safe path" width="160">
+</p>
 
-This project demonstrates the Banker's Algorithm for deadlock avoidance in operating systems. It provides an interactive CLI to configure processes and resources, perform resource requests, and observe safety checks in real time.
+<h1 align="center">Banker's Algorithm: Deadlock Prevention</h1>
+
+<p align="center">A Python example of the Banker's Algorithm with a command-line interface and a Tkinter visualizer.</p>
+
+<div align="center">
+
+[Overview](#overview) · [Features](#features) · [Install](#install) · [Run](#run) · [Tests](#tests)
+
+</div>
+
+## Overview
+
+The program calculates Need from the Max and Allocation matrices. It then checks if the system is safe. The result includes a safe sequence or an unsafe state.
 
 ## Features
 
-- Configure processes and resources.
-- Load example matrices (Max, Allocation, Available).
-- Perform resource requests interactively.
-- Step-by-step safety checks.
-- Determine if the system is in a SAFE or UNSAFE state.
+- Load preset matrices or enter a custom system.
+- View the calculated Need matrix and the safety trace in the GUI.
+- Apply resource requests in the CLI. The program grants or denies each request.
+- Edit Max, Allocation, and Available values in the GUI.
 
-## Installation
+The GUI does not have resource-request controls. Use the CLI to make a request. The GUI displays a text trace. It does not animate the steps.
 
-1. Ensure Python 3.10+ is installed.
-2. Clone or copy this project.
+### Simple Safe example
 
-## Running the Project
+The Simple Safe preset uses three processes and three resources. The lower view shows its Need matrix, trace, and SAFE sequence. The image does not show the preset controls or matrix labels.
 
-Navigate to the `deadlock_prevention` directory and run one of the following:
+![The scrolled view shows the computed Need matrix and text trace. It shows the SAFE sequence P1 → P0 → P2. The image does not show the preset controls or matrix labels.](assets/bankers-safe-sequence.png)
 
-### Interactive CLI
+## Install
 
-```bash
+The Banker module uses the Python standard library. Use `Python 3.10+` for this module. Use `Python 3.13+` for the root toolchain. The GUI uses Tkinter. Start it on a desktop display.
+
+The `requirements.txt` file lists no external packages. Run the commands from the repository root.
+
+## Run
+
+Start the interactive command-line program:
+
+```sh
 python -m deadlock_prevention.bankers.cli
 ```
 
-### Visual Frontend (Tkinter)
+Start the Tkinter visualizer:
 
-```bash
-python demo.py
+```sh
+python deadlock_prevention/demo.py
 ```
 
-The frontend lets you adjust matrices, load curated examples, and stream the algorithm
-trace live for presentations.
+The CLI loads two example systems. The GUI has preset safe and unsafe systems. Both programs let you run a safety check.
 
-## Example Interaction
+## Tests
 
-1. Choose an example system.
-2. Run a safety check.
-3. Make a resource request or tweak the matrices.
-4. Observe the results and explanations (CLI) or the animated trace (GUI).
+Run the Banker tests from the repository root:
+
+```sh
+python -m unittest discover -s deadlock_prevention/tests
+```
+
+[Aventa Lumen Toolchain README](../README.md)
