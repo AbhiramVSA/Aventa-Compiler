@@ -31,6 +31,25 @@ class SampleProgramTests(unittest.TestCase):
 
                 self.assertEqual(outputs, [expected])
 
+    def test_odd_even_example_classifies_signed_integers(self) -> None:
+        source = ROOT / "code" / "odd_even.av"
+        instructions = parse_program(source)
+        program = link(assemble(instructions))
+
+        cases = (
+            (-3, "odd"),
+            (-2, "even"),
+            (0, "even"),
+            (3, "odd"),
+            (2, "even"),
+        )
+
+        for value, expected in cases:
+            with self.subTest(value=value):
+                outputs = run_program(program, input_provider=lambda value=value: value)
+
+                self.assertEqual(outputs, [expected])
+
 
 if __name__ == "__main__":
     unittest.main()
