@@ -48,6 +48,9 @@ class BankersAlgorithm:
         Returns:
             bool: True if the request is granted, False otherwise.
         """
+        if any(amount < 0 for amount in request):
+            return False
+
         if any(request[j] > self.system_state.need_matrix[process_id][j] for j in range(self.system_state.num_resources)):
             return False  # Request exceeds need
 
