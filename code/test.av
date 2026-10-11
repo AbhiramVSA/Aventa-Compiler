@@ -6,7 +6,6 @@ FLASH "negative value"
 QUIET
 
 positive_cycle:
-EMBER 3
 TWIST 3
 GLINT.ZERO divisible
 GLINT.POS positive_cycle
