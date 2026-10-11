@@ -75,8 +75,8 @@ Read the [Aventa Lumen language guide](docs/aventa_language.md) for syntax detai
 
 ## Examples
 
-- `code/test.av` reports if a value is negative, zero, or positive. It also reports if a value is divisible by three.
-- `code/pulse_counter.av` prints one `tick` for each count, then prints `liftoff`.
+- `code/test.av` reports whether an input is negative, zero, or positive. For positive inputs, it also checks divisibility by three.
+- `code/pulse_counter.av` prints one `tick` for each positive count, then prints `liftoff`. For `0`, it prints `already at zero`.
 - `code/odd_even.av` reports if an integer is odd or even.
 
 ## Tests
