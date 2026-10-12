@@ -1,52 +1,92 @@
-# Aventa Lumen Toolchain
+<p align="center">
+  <img src="assets/aventa-lumen-toolchain-logo.png" alt="Amber and navy symbols for the Aventa Lumen toolchain" width="160">
+</p>
 
-The project now ships a minimal end-to-end toolchain for the **Aventa Lumen** stack
-language: parse the `.av` file, translate it into a linkable unit, resolve labels, and
-execute the bytecode on a tiny virtual machine.
+<h1 align="center">Aventa Lumen Toolchain</h1>
 
-## Quick Start
+<p align="center">A Python toolchain for the Aventa Lumen stack language.</p>
 
-```pwsh
-python main.py code/test.av
+<div align="center">
+
+[Overview](#overview) · [Install](#install) · [Run](#run) · [Language](#language) · [Examples](#examples) · [Tests](#tests)
+
+</div>
+
+## Overview
+
+The toolchain parses `.av` source files, assembles instructions, links labels, and runs bytecode on a stack machine. The command-line program reports each completed stage and prints the program output.
+
+## Install
+
+Use `Python 3.13+` for the root project. Install [uv](https://docs.astral.sh/uv/), then run these commands from the repository root:
+
+```sh
+uv sync --frozen
 ```
 
-The CLI now announces each compilation stage (`[parser] complete`, `[assembler] complete`,
-`[linker] complete`, `[runtime] complete`) and then prints the queued `FLASH` output so
-you can separate infrastructure logs from program output.
+The lock file lists each project dependency and version.
 
-To inspect the intermediate JSON emitted by the parser directly, run
-`python compiler/parser.py code/test.av`.
+## Run
 
-## Pipeline Overview
+Run a source file with the command-line program:
 
-1. **Parser** (`compiler/parser.py`) cleans comments, validates syntax, and records
-	labels.
-2. **Assembler** (`compiler/assembler.py`) packages the raw instructions with a label
-	table so they are easy to link.
-3. **Linker** (`compiler/linker.py`) replaces label operands with instruction indexes.
-4. **Runtime** (`compiler/runtime.py`) interprets the linked program using a compact
-	stack machine.
+```sh
+uv run --frozen python main.py code/test.av
+```
 
-## Instruction Set
+The `SIP` instruction reads an integer from standard input. This command sends the value `9` to the sample program:
 
-| Opcode        | Description                                               | Operands |
-|---------------|-----------------------------------------------------------|----------|
-| `SIP`         | Reads an integer from input onto the stack                | –        |
-| `EMBER n`     | Pushes the integer literal `n`                            | int      |
-| `TWIST n`     | Conceptually subtracts `n` from the current stack head    | int      |
-| `FLASH "txt"`| Emits a quoted string literal                             | string   |
-| `DRIFT lbl`   | Unconditional branch to `lbl`                             | label    |
-| `GLINT.ZERO lbl` | Branches when the stack head equals zero              | label    |
-| `GLINT.POS lbl`  | Branches when the stack head is positive              | label    |
-| `QUIET`       | Halts execution                                           | –        |
+```sh
+printf '9\n' | uv run --frozen python main.py code/test.av
+```
 
-Labels use the syntax `label_name:` and can be stacked above a single instruction.
-Inline comments support `//`, `#`, or `;` markers outside of quoted strings.
+The program reports each compilation stage, then prints the result:
 
-## Example Programs
+```text
+[parser] complete
+[assembler] complete
+[linker] complete
+SIP> [runtime] complete
+positive and divisible by three
+```
 
-- `code/test.av` – Classifies numbers as negative, zero, or positive and tests divisibility by three.
-- `code/pulse_counter.av` – Demonstrates a countdown loop that prints "tick" until zero.
-- `code/odd_even.av` – Reads an integer and reports whether it is odd or even.
+Run the parser to print its JSON output:
 
-Feel free to fork the opcode table inside `compiler/parser.py` to grow the language.
+```sh
+uv run --frozen python compiler/parser.py code/test.av
+```
+
+## Language
+
+The parser accepts labels in the form `label_name:`. It uses `//`, `#`, and `;` as comment markers. It does not read these marks as comments in a quoted string.
+
+| Opcode | Action | Operand |
+| --- | --- | --- |
+| `SIP` | Read an integer onto the stack. | None |
+| `EMBER n` | Push integer `n` onto the stack. | Integer |
+| `TWIST n` | Subtract `n` from the top stack value. | Integer |
+| `FLASH "text"` | Add a text value to program output. | Text |
+| `DRIFT label` | Jump to a label. | Label |
+| `GLINT.ZERO label` | Jump when the top stack value equals zero. | Label |
+| `GLINT.POS label` | Jump when the top stack value is positive. | Label |
+| `QUIET` | Stop the program. | None |
+
+Read the [Aventa Lumen language guide](docs/aventa_language.md) for syntax details.
+
+## Examples
+
+- `code/test.av` reports whether an input is negative, zero, or positive. For positive inputs, it also checks divisibility by three.
+- `code/pulse_counter.av` prints one `tick` for each positive count, then prints `liftoff`. For `0`, it prints `already at zero`.
+- `code/odd_even.av` reports if an integer is odd or even.
+
+## Tests
+
+Run the toolchain tests from the repository root:
+
+```sh
+uv run --frozen python -m unittest discover -s tests
+```
+
+## Related project
+
+The [`deadlock_prevention` project](deadlock_prevention/README.md) shows the Banker's Algorithm. It has a command-line interface and a Tkinter visualizer.
