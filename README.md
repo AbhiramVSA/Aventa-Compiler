@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/aventa-lumen-toolchain-logo.png" alt="Amber and navy symbols for the Aventa Lumen toolchain" width="160">
+  <img src="assets/aventa-lumen-toolchain-logo.png" alt="Amber and navy symbols for the Aventa Lumen toolchain" width="200">
 </p>
 
 <h1 align="center">Aventa Lumen Toolchain</h1>
